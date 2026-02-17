@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    function addseries(a,b){
+      
+       
+        return Promise.resolve(function(){
+  let sum=0;
+        for(i=a;i<=b;i++){
+         sum+=i;
+        }
+        return sum;
+        })
+       }
+    
+    
+     addseries(10,20).then( function (res){console.log(res);})
+     console.log('hi');
+
+</script>
+<body>
+    
+</body>
+</html>

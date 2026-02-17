@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new table</title>
+</head>
+<body>
+    <table id="books" border="2px">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>isbn</th>
+                    <th>pagecount</th>
+                    <th>thumbnailurl</th>
+                    <th>status</th>
+                    <th>authors</th>
+                    <th>categories</th>
+                    <th>price</th>
+                    <th>currency</th>
+                    <th>discount</th>
+                    <th>discountunits</th>
+                </tr>
+            </thead>
+        </table>
+        <script src="books.js"></script>
+        <script>
+            books.forEach(function(book){
+            var ntr=document.createElement("tr")
+            var title=document.createElement("td")
+            title.innerText= book.title
+            var isbn=document.createElement("td")
+            isbn.innerText= book.isbn
+            var pagecount=document.createElement("td")
+            pagecount.innerText= book.pageCount
+            var thumbnailurl=document.createElement("td")
+            thumbnailurl.innerText= book.thumbnailUrl
+            var status=document.createElement("td")
+            status.innerText= book.status
+            var authors=document.createElement("td")
+            authors.innerText= book.authors
+            var categories=document.createElement("td")
+            categories.innerText= book.categories
+            var price=document.createElement("td")
+            price.innerText= book.price
+            var currency=document.createElement("td")
+            currency.innerText= book.currency
+            var discount=document.createElement("td")
+            discount.innerText= book.discount
+            var discountunits=document.createElement("td")
+            discountunits.innerText= book.discountUnits
+            ntr.appendChild(title)
+            ntr.appendChild(isbn)
+            ntr.appendChild(pagecount)
+            ntr.appendChild(thumbnailurl)
+            ntr.appendChild(status)
+            ntr.appendChild(authors)
+            ntr.appendChild(categories)
+            ntr.appendChild(price)
+            ntr.appendChild(currency)
+            ntr.appendChild(discount)
+            ntr.appendChild(discountunits)
+            document.getElementById("books").appendChild(ntr)
+
+        })
+     
+         var page=1;
+         var perpage=10;
+         var data=books;
+
+        function displayPage{
+            var table=document.createElement("books")
+            let rows = table.querySelectorAll("tr:not(:first-child)");
+             rows.forEach(r => r.remove());
+             var start = (page - 1) * perPage;
+             var end = start + perPage;
+              var pageData = data.slice(start, end);
+
+               let start = (page - 1) * perPage;
+  let end = start + perPage;
+
+  let pageData = data.slice(start, end);
+
+  pageData.forEach(function(book) {
+
+    let row = document.createElement("tr");
+
+    function cell(text) {
+      let td = document.createElement("td");
+      td.innerText = text;
+      return td;
+    }
+
+    row.appendChild(cell(book.title));
+    row.appendChild(cell(book.isbn));
+    row.appendChild(cell(book.pageCount));
+    row.appendChild(cell(book.thumbnailUrl));
+    row.appendChild(cell(book.status));
+    row.appendChild(cell(book.authors));
+    row.appendChild(cell(book.categories));
+    row.appendChild(cell(book.price));
+    row.appendChild(cell(book.currency));
+    row.appendChild(cell(book.discount));
+    row.appendChild(cell(book.discountUnits));
+
+    table.appendChild(row);
+  });
+
+  document.getElementById("page").innerText =
+    "Page " + page;
+}
+
+function nextPage() {
+  if (page * perPage < data.length) {
+    page++;
+    showTable();
+  }
+}
+
+function previousPage() {
+  if (page > 1) {
+    page--;
+    displayTable();
+  }
+}
+
+function sortTitle() {
+  data.sort(function(a, b) {
+    if (ascending) {
+      return a.title > b.title ? 1 : -1;
+    } else {
+      return a.title < b.title ? 1 : -1;
+    }
+  });
+
+  ascending = !ascending;
+  page = 1;
+  displayTable();
+}
+
+displayTable();
+
+
+
+            
+        }
+        
+
+
+
+    </script>
+    </body>
+    </html>    
+    
+
+    
+      
+
+
+
+
+
+
+

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CineHub</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  color:#0f172a;
+  background: linear-gradient(120deg,#d74c4c,#29678e,#a42d57,#c4b22c);
+  background-size:300% 300%;
+  animation: cinemaFlow 16s ease infinite;
+}
+
+
+
+/* header */
+header{
+  padding:18px 30px;
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(12px);
+  font-size:22px;
+  font-weight:bold;
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* section */
+.section{
+  padding:25px;
+  background:rgba(251, 246, 246, 0.6);
+  backdrop-filter:blur(12px);
+  border-radius:14px;
+  margin:20px;
+}
+
+/* tabs */
+.tabs{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.tab{
+  padding:10px 20px;
+  border-radius:8px;
+  cursor:pointer;
+  background:white;
+  border:1px solid #94a3b8;
+  transition:0.3s;
+}
+
+.tab.active{
+  background:#4864a1;
+  color:white;
+}
+
+/* movie grid */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
+}
+
+/* movie card */
+.movie{
+  height:260px;
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  transition:0.4s;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  background:white;
+}
+
+.movie:hover{
+  transform:translateY(-8px);
+}
+
+/* image zoom effect */
+.movie img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:0.6s;
+}
+
+.movie:hover img{
+  transform:scale(1.15);
+}
+
+/* title overlay */
+.movieTitle{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  color:white;
+  font-weight:bold;
+  padding:10px;
+  text-align:center;
+  background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);
+}
+
+/* time buttons */
+.times{ display:flex; gap:10px; justify-content:center; }
+
+.timeBtn{
+  padding:8px 15px;
+  border-radius:6px;
+  border:1px solid #5180e5;
+  cursor:pointer;
+  background:white;
+}
+
+.timeBtn.active{
+  background:#4864a1;
+  color:white;
+}
+
+/* seats */
+.seats{
+  display:grid;
+  grid-template-columns:repeat(6,40px);
+  gap:12px;
+  justify-content:center;
+  margin-top:20px;
+}
+
+.seat{
+  width:40px;
+  height:40px;
+  background:#cbd5f5;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.seat.selected{ background:black; }
+.seat.booked{ background:#c2dbff; cursor:not-allowed; }
+
+/* button */
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:8px;
+  background:#4864a1;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:15px;
+}
+
+/* status */
+.status{
+  text-align:center;
+  font-size:2em;
+  margin-top:15px;
+  font-weight:bold;
+}
+.pending{ color:#c35525; }
+.success{ color:#00b442; }
+.error{ color:#ff0000; }
+
+/* ticket */
+.ticket{
+  background:white;
+  border-radius:14px;
+  padding:20px;
+  width:260px;
+  margin:20px auto;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>🎬 A simple cine booking by promise flow.</header>
+
+<div class="section">
+
+ <div class="tabs">
+  <div class="tab active" onclick="showTab('all')">All Movies</div>
+  <div class="tab" onclick="showTab('popular')">Popular</div>
+  <div class="tab" onclick="showTab('horror')">Horror</div>
+  <div class="tab" onclick="showTab('other')">Others</div>
+</div>
+
+
+  <div class="grid" id="movieGrid"></div>
+</div>
+
+<div class="section" id="bookingSection" style="display:none">
+  <h3>Select Time</h3>
+  <div class="times">
+    <div class="timeBtn">10:00 AM</div>
+    <div class="timeBtn">2:00 PM</div>
+    <div class="timeBtn">6:00 PM</div>
+  </div>
+
+  <h3>Select Seats</h3>
+  <div class="seats" id="seatGrid"></div>
+
+  <div style="text-align:center">
+    <div id="price">Total: ₹0</div>
+    <button onclick="startBooking()">Confirm Booking</button>
+  </div>
+</div>
+
+<div id="status" class="status">Select a movie</div>
+<div id="ticketArea"></div>
+
+<script>
+const movies=[
+ {name:"Avengers",cat:"popular",poster:"https://images.unsplash.com/photo-1536440136628-849c177e76a1"},
+ {name:"Interstellar",cat:"popular",poster:"https://images.unsplash.com/photo-1478720568477-152d9b164e26"},
+ {name:"Inception",cat:"popular",poster:"https://images.unsplash.com/photo-1517602302552-471fe67acf66"},
+ {name:"Kalki",cat:"popular",poster:"https://i.pinimg.com/1200x/64/15/cb/6415cb69f4651186cd0d6e55037da48f.jpg"},
+ {name:"Kabir Singh",cat:"popular",poster:"https://5.imimg.com/data5/CO/IP/MQ/SELLER-30220222/bollywood-wall-poster-500x500.jpg"},
+ {name:"Black Adam",cat:"popular",poster:"https://images.thedirect.com/media/photos/posd1_1.jpg"},
+
+ {name:"Send Help",cat:"horror",poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd9hcK7smnlc_Ds6AhEeWPRCwgM10g13w6jg&s"},
+ {name:"Send Help 2",cat:"horror",poster:"https://pbs.twimg.com/media/G-p_GqtX0AAZ_oZ.jpg"},
+ {name:"Evil Dead Rise",cat:"horror",poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeknaLhVsKb1dDZsJVFeg8rE6fCysP1HE6yg&s"},
+ {name:"Lamb",cat:"horror",poster:"https://assets.mubicdn.net/images/notebook/post_images/34516/images-w1400.jpg?1639064588"},
+ {name:"Scream",cat:"horror",poster:"https://cdn.shopify.com/s/files/1/1057/4964/files/Scream-Vintage-Movie-Poster-Original_6538bc4e_368x.jpg?v=1765335798"},
+ {name:"Watcher",cat:"horror",poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiWsQAfwerD5Xd9eR1TZoCiZNWtyX4RgxwbA&s"},
+
+ {name:"Luca",cat:"other",poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXGAEK3dD60Y-CJOe1K7nQu11_q-6bBOfzAg&s"},
+ {name:"Whistle",cat:"other",poster:"https://www.westwinddi.com/wp-content/uploads/sites/3/2026/02/HO00002139.jpeg?w=1240"},
+ {name:"Our Journey",cat:"other",poster:"https://www.yourfilmposter.com/cdn/shop/products/ourjourney_dbae58a7-4115-40be-b6a1-cb6f111427c4.webp?v=1736341312"},
+  {name:"Joker",cat:"other",poster:"https://www.movieposters.com/cdn/shop/files/joker_ydzoknim.jpg?v=1762474032&width=250"},
+   {name:"THe Little Mermaid",cat:"other",poster:"https://www.femalefirst.co.uk/image-library/port/620/t/the-little-mermaid-movie-poster.jpg"},
+    {name:"The Ring",cat:"other",poster:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJQeBcgNfLmRhqmyZX40KDM3-vOfjngiqBA&s"}
+];
+
+
+let selectedMovie=null;
+let selectedTime=null;
+let selectedSeats=[];
+const seatPrice=150;
+
+const grid=document.getElementById("movieGrid");
+const seatGrid=document.getElementById("seatGrid");
+const status=document.getElementById("status");
+const priceText=document.getElementById("price");
+const ticketArea=document.getElementById("ticketArea");
+
+function renderMovies(filter){
+  grid.innerHTML="";
+  movies
+  .filter(m=>filter==="all" || m.cat===filter)
+  .forEach(movie=>{
+    const card=document.createElement("div");
+    card.className="movie";
+
+    card.innerHTML=`
+      <img src="${movie.poster}">
+      <div class="movieTitle">${movie.name}</div>
+    `;
+
+    card.onclick=()=>{
+      selectedMovie=movie.name;
+      document.getElementById("bookingSection").style.display="block";
+      status.innerText=movie.name+" selected";
+      createSeats();
+    };
+
+    grid.appendChild(card);
+  });
+}
+
+function showTab(type){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  event.target.classList.add("active");
+  renderMovies(type);
+}
+
+renderMovies("all");
+
+/* time select */
+document.querySelectorAll(".timeBtn").forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll(".timeBtn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedTime=btn.innerText;
+  };
+});
+
+/* seats */
+function createSeats(){
+  seatGrid.innerHTML="";
+  selectedSeats=[];
+  updatePrice();
+
+  for(let i=1;i<=24;i++){
+    const seat=document.createElement("div");
+    seat.className="seat";
+
+    if(Math.random()<0.3) seat.classList.add("booked");
+
+    seat.onclick=()=>{
+      if(seat.classList.contains("booked")) return;
+      seat.classList.toggle("selected");
+
+      if(seat.classList.contains("selected"))
+        selectedSeats.push(i);
+      else
+        selectedSeats=selectedSeats.filter(s=>s!==i);
+
+      updatePrice();
+    };
+
+    seatGrid.appendChild(seat);
+  }
+}
+
+function updatePrice(){
+  priceText.innerText="Total: ₹"+(selectedSeats.length*seatPrice);
+}
+
+function paymentProcess(){
+  return new Promise((resolve,reject)=>{
+    setTimeout(()=>{
+      Math.random()>0.2 ? resolve() : reject("Payment Failed ❌");
+    },2000);
+  });
+}
+
+async function startBooking(){
+  if(!selectedMovie || !selectedTime || selectedSeats.length===0){
+    status.innerText="Complete all selections";
+    status.className="status error";
+    return;
+  }
+
+  status.innerText="Processing payment...";
+  status.className="status pending";
+
+  try{
+    await paymentProcess();
+    status.innerText="Booking Confirmed 🎉";
+    status.className="status success";
+    showTicket();
+  }
+  catch(err){
+    status.innerText=err;
+    status.className="status error";
+  }
+}
+
+function showTicket(){
+  ticketArea.innerHTML=`
+    <div class="ticket">
+      <h3>${selectedMovie}</h3>
+      <p>${selectedTime}</p>
+      <p>Seats: ${selectedSeats.join(", ")}</p>
+      <p>Total Paid: ₹${selectedSeats.length*seatPrice}</p>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
