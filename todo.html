@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>ToDo List</h3>
+
+<input id="task">
+<button onclick="addTodo()">Add</button>
+
+<ul id="list"></ul>
+
+<script>
+var todos = [];
+
+if (window.localStorage.getItem("todos")) {
+    todos = JSON.parse(window.localStorage.getItem("todos"));
+}
+
+genTodos();
+
+function addTodo() {
+    let value = document.getElementById("task").value;
+
+    if (value =="") return;
+
+    todos.push(value);
+
+    window.localStorage.setItem("todos", JSON.stringify(todos));
+
+    document.getElementById("task").value = "";
+    genTodos();
+}
+
+function deleteTodo(index) {
+    todos.splice(index, 1);
+
+    window.localStorage.setItem("todos", JSON.stringify(todos));
+
+    genTodos();
+}
+
+function genTodos() {
+    let output = "";
+
+    todos.forEach((todo ,index)=> { 
+        output += `<li> ${todo}
+         <button onclick="deleteTodo(${index})">Delete</button></li>`;
+    });
+
+    document.getElementById("list").innerHTML = output;
+}
+</script>
+
+
+
+
+
+</body>
+</html>

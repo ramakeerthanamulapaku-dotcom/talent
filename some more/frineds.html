@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+             margin:0;
+             height:100vh;
+              display:flex;
+            justify-content:center;
+           align-items:center;
+        }
+
+        #temple{
+            width:400px;
+           height:600px;
+           perspective: 600px;
+        }
+        #temple img{
+            width:100%;
+            height:100%;
+            transition: 2s;
+
+        
+        }
+          #temple:hover img{
+           
+            transform:
+            translateX(40px) 
+            scale(1.2)
+
+            rotateX(360deg) ;
+          }
+    </style>
+</head>
+<body>
+    <div id="temple">
+
+        
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM9OO-zet2zmoaQ6fRotVxskN-ne1Va3vvAw&s">
+
+    </div>
+
+    
+</body>
+</html>
