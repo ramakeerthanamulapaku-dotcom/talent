@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        body{
+            margin: 15px;
+            display:flex;
+            justify-content:center;
+        }
+     .hero{
+        width: 1350px;
+        height:600px;
+       
+        background: linear-gradient(45deg, #000000a7, #59585b, #b9b5b9b6);
+        border-radius: 10px;
+        position: relative;
+        box-shadow:0 0 20px 30px rgba(126, 126, 132, 0.732);
+     }
+     #navbar{
+        width:1300px;
+        height:60px;
+        background: linear-gradient(20deg, #57555771, #aaacab);
+        position:absolute;
+         top:30px;
+         left:80px;
+         border-radius: 20px;
+         display:flex;
+         justify-content: space-between;
+         align-items: center;
+         top:0px;
+         left:0px;
+         transform: translate(25px,20px);
+    
+        
+
+         }
+         #navbar li{
+    
+            display:inline-block;
+            margin:0 15px;
+         color:rgb(51, 50, 50);
+            font-weight: 300;
+            font-size: 1.3em;
+            border-radius:20px;
+        
+            padding:10px;
+            transition: 0.25s;
+
+         }
+         #navbar li:hover{
+              
+        
+              background:rgba(255,255,255,0.3); 
+              box-shadow: 2px 2px 2px 2px rgba(1, 1, 54, 0.732);  
+         }
+         #pagename h1{
+            display:inline-block;
+            margin: 15px;
+            color:#030008;
+            font-weight: 700;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 2em;
+
+         }
+        #middle{
+            display:flex;
+            margin-top:0px;
+        }
+        #left{
+            width:50%;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #right{
+            width:50%;
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+           
+            padding:40px;
+            color:#000000;
+             transform: translate(50px,120px);
+             transition: 0.25s;
+              
+             
+
+
+        }
+        #right h1{
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        #right p{
+          font-size:18px;
+          max-width:500px;
+          line-height:1.6; 
+          font-weight: 100; 
+        }
+        
+        #left img{
+            max-width: 75%;
+            height: 450px;
+        
+            transform: translate(30px,115px);
+            transition: 0.25s;
+             
+            
+        }
+        .hero #right:hover,
+        .hero #left img:hover {
+        box-shadow:0 0 20px 30px rgba(126, 126, 132, 0.732);
+        }
+        .bi-list{
+            font-size: 32px;
+        
+            margin-right: 20px;
+            display: none; 
+            color: #222;
+             padding: 6px 10px;
+             border-radius: 10px;
+             transition: 0.3s;
+        }
+
+        .bi-list:hover{
+         background: rgba(255,255,255,0.4);
+          box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+       @media screen and (max-width: 1200px){
+
+    .hero{
+        width:100%;
+        height:auto;
+    }
+
+    #navbar{
+        width:95%;
+    }
+
+    #navbar ul{
+        display: none; 
+    }
+
+    .bi-list{
+        display: block; 
+    }
+
+    #middle{
+        flex-direction: column;
+    }
+
+    #left, #right{
+        width:100%;
+        transform:none;
+        align-items: center;
+        text-align: center;
+    }
+
+    #left img{
+        width: 90%;
+        height: auto;
+        transform: none;
+    }
+}
+ @media print{
+    body{
+        margin:2px;
+        border-color:2px solid #000000;
+    }
+    .hero{
+        background: none;
+        box-shadow: none;
+        width:100%;
+        height:auto;
+    }
+    #navbar{
+        display:none;
+    }
+    #middle{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #left img{
+        display:block;
+        max-width: 300px;
+        height:auto;
+        transform: none;
+
+    }
+    #right{
+        transform: none;
+        color: #000000;
+         text-align:center;
+         padding: 10px 20px;
+         box-shadow: none;
+    }
+    #right h1{
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    #right p{
+    font-size:14px ;
+    max-width: 90%;
+    }
+    h2{
+        display:none;
+    }
+ }
+     #toggle-menu{
+    display:none;
+     }
+ 
+ 
+  .menu-icon{
+        display:none;
+  }
+        
+         @media screen and (max-width:1200px){
+
+    
+    .menu-icon{
+        display: block;
+        cursor: pointer;
+    }
+
+
+    #menubar{
+        display: none;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background: rgba(200,200,200,0.95);
+        padding: 10px;
+        border-radius: 12px;
+        flex-direction: column;
+        width: 200px;
+    
+    }
+
+    #menubar li{
+        display: block;
+        margin: 8px 0;
+        text-align: center;
+    }
+
+    
+    #toggle-menu:checked ~ #menubar{
+        display: flex;
+    }
+}
+
+
+
+            
+        
+        
+    </style>
+</head>
+
+
+<body>
+    <div class="hero">
+        <div id="navbar">
+            <div id="pagename" ><h1>\ThoughtWorks</h1>
+                
+            </div>
+     <input type="checkbox" id="toggle-menu">
+     <label for="toggle-menu" class="menu-icon">
+         <i class="bi bi-list"></i
+            ></label>
+
+  <ul id="menubar">
+                <li>Home</li>
+                <li>What we do </li>
+                <li>Insights</li>
+                <li>Engineering</li>
+                <li>Careers</li>
+                <li>Contact Us</li>
+                 </ul>
+        </div>
+<div id="middle">
+        <div id="left">
+            <img src="https://www.thoughtworks.com/content/dam/thoughtworks/images/photography/50-50/about-us/our-brand/ab_50-50_brand_01.jpg">
+        </div>
+        <div id="right">
+            <h1>Meet Thoughtworks</h1>
+            <p>AI/works™ packs decades of engineering IP into a platform that changes the economics of building industrial-grade systems. With our technologists steering AI/works, you get higher quality systems, delivered at radically lower cost. Faster than you can say “algorithmic bias”.</p>
+            <h2>________________________________________________</h2>
+        </div>
+</div>
+    </div>
+</body>
+</html>
